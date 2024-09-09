@@ -1,38 +1,194 @@
 .App {
-  text-align: center;
+  background: hsl(148, 38%, 91%);
+  height: 100vh;
+  position: relative;
 }
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.formContainer {
+  width: calc(100% - 30px);
+  max-width: 960px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: hsl(0, 0%, 100%);
+  box-sizing: border-box;
+  border-radius: 25px;
+  padding: 50px;
 }
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
+@media screen and (max-width: 680px) {
+  .formContainer {
+    padding: 15px;
   }
 }
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.formContainer h1 {
+  margin: 0 0 30px;
+  color: hsl(187, 24%, 22%);
+  font-weight: 700;
+  font-family: "Karla", sans-serif;
+}
+.formContainer form {
   display: flex;
-  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+.formContainer form .form-input {
+  margin-bottom: 20px;
+}
+.formContainer form .form-input label {
+  display: block;
+  font-family: "Karla", sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  color: hsl(187, 24%, 22%);
+  margin-bottom: 10px;
+}
+.formContainer form .form-input label span {
+  color: hsl(169, 82%, 27%);
+}
+.formContainer form .form-input input:not(.queries>.query>input, #consent),
+.formContainer form .form-input textarea {
+  width: 100%;
+  box-sizing: border-box;
+  border-radius: 8px;
+  height: 45px;
+  border: 1px solid hsl(187, 24%, 22%);
+  padding-left: 10px;
+  font-size: 14px;
+  transition: border 0.3s ease-in-out;
+  cursor: pointer;
+}
+.formContainer form .form-input input:not(.queries>.query>input, #consent):hover,
+.formContainer form .form-input textarea:hover,
+.formContainer form .form-input input:not(.queries>.query>input, #consent):active,
+.formContainer form .form-input textarea:active {
+  border: 1px solid hsl(169, 82%, 27%);
+}
+.formContainer form .form-input input:not(.queries>.query>input, #consent):focus-visible,
+.formContainer form .form-input textarea:focus-visible {
+  outline: 1px solid hsl(169, 82%, 27%);
+}
+.formContainer form .form-input textarea {
+  height: 100px;
+  resize: none;
+  padding-top: 10px;
+}
+.formContainer form .form-input.input-error input:not(.queries>.query>input, #consent),
+.formContainer form .form-input.input-error textarea {
+  border: 1px solid hsl(0, 66%, 54%);
+}
+.formContainer form .queries {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+@media screen and (max-width: 680px) {
+  .formContainer form .queries {
+    gap: 15px;
+  }
+}
+.formContainer form .queries .query {
+  width: calc(100%/2 - 8px);
+  box-sizing: border-box;
+  border-radius: 8px;
+  height: 45px;
+  border: 1px solid hsl(187, 24%, 22%);
+  padding-left: 20px;
+  font-family: "Karla", sans-serif;
+  font-size: 18px;
+  font-weight: 400;
+  color: hsl(187, 24%, 22%);
+  display: flex;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  transition: border 0.3s ease-in-out;
+  cursor: pointer;
 }
-
-.App-link {
-  color: #61dafb;
+@media screen and (max-width: 680px) {
+  .formContainer form .queries .query {
+    width: 100%;
+  }
 }
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+.formContainer form .queries .query:hover {
+  border: 1px solid hsl(169, 82%, 27%);
+}
+.formContainer form .queries .query.selected {
+  background: hsl(148, 38%, 91%);
+}
+.formContainer form .queries .query input {
+  margin: 0 10px 0 0;
+  width: 18px;
+  height: 18px;
+}
+.formContainer form .checkbox-container {
+  display: flex;
+  margin-bottom: 0;
+}
+.formContainer form .checkbox-container label {
+  margin-bottom: 0;
+}
+.formContainer form .checkbox-container input {
+  margin: 0 20px 0 0;
+  height: 18px;
+  width: 18px;
+  cursor: pointer;
+}
+.formContainer form .checkbox-container label {
+  cursor: pointer;
+}
+.formContainer form .full {
+  width: 100%;
+}
+.formContainer form .half {
+  width: calc(100%/2 - 8px);
+}
+@media screen and (max-width: 680px) {
+  .formContainer form .half {
+    width: 100%;
   }
-  to {
-    transform: rotate(360deg);
-  }
+}
+.formContainer form button {
+  margin-top: 50px;
+  width: 100%;
+  height: 50px;
+  border-radius: 8px;
+  background: hsl(169, 82%, 27%);
+  color: #fff;
+  font-size: 16px;
+  font-family: "Karla", sans-serif;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+.formContainer form button:hover {
+  background: hsl(171, 80%, 14%);
+}
+.error {
+  margin-top: 10px;
+  margin-bottom: 0;
+  color: hsl(0, 66%, 54%);
+  font-size: 16px;
+  font-family: "Karla", sans-serif;
+  font-weight: 400;
+}
+.success-alert {
+  position: absolute;
+  left: 50%;
+  top: 20px;
+  transform: translateX(-50%);
+  background: hsl(171, 80%, 14%);
+  color: #fff;
+  border-radius: 10px;
+  padding: 15px;
+  font-family: "Karla", sans-serif;
+  z-index: 2;
+}
+.success-alert p:first-of-type {
+  margin: 0;
+}
+.success-alert p:first-of-type img {
+  vertical-align: bottom;
+  margin-right: 5px;
+}
+.success-alert p:last-of-type {
+  margin-bottom: 0;
 }

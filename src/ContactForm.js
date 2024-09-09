@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import checkmark_success from './icon-success-check.svg'
 
 const ContactForm = () => {
     const [formData, setFormData] = useState({
@@ -15,16 +16,16 @@ const ContactForm = () => {
 
     const validate = () => {
         const newErrors = {};
-        if (!formData.firstName) newErrors.firstName = 'First Name is required';
-        if (!formData.lastName) newErrors.lastName = 'Last Name is required';
+        if (!formData.firstName) newErrors.firstName = 'This field is required';
+        if (!formData.lastName) newErrors.lastName = 'This field is required';
         if (!formData.email) {
-            newErrors.email = 'Email Address is required';
+            newErrors.email = 'This fields is required';
         } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-            newErrors.email = 'Email Address is invalid';
+            newErrors.email = 'Please enter a valid email address';
         }
-        if (!formData.enquiryType) newErrors.enquiryType = 'Please select an enquiry type';
-        if (!formData.message) newErrors.message = 'Message is required';
-        if (!formData.consent) newErrors.consent = 'You must consent to being contacted';
+        if (!formData.enquiryType) newErrors.enquiryType = 'Please select a query type';
+        if (!formData.message) newErrors.message = 'This field is required';
+        if (!formData.consent) newErrors.consent = 'To submit this form, please consent to being contacted';
         return newErrors;
     };
 
@@ -34,6 +35,19 @@ const ContactForm = () => {
             ...formData,
             [name]: type === 'checkbox' ? checked : value,
         });
+
+        if (name === "enquiryType") {
+            const queryElements = document.querySelectorAll('.query');
+            queryElements.forEach(element => {
+                element.classList.remove('selected');
+            });
+
+            if (value === 'General Enquiry') {
+                document.querySelector('.query input[value="General Enquiry"]').parentElement.classList.add('selected');
+            } else if (value === 'Support Request') {
+                document.querySelector('.query input[value="Support Request"]').parentElement.classList.add('selected');
+            }
+        }
     };
 
     const handleSubmit = (e) => {
@@ -41,99 +55,118 @@ const ContactForm = () => {
         const validationErrors = validate();
         if (Object.keys(validationErrors).length === 0) {
             setShowConfirmation(true);
+            setFormData({
+                firstName: '',
+                lastName: '',
+                email: '',
+                enquiryType: '',
+                message: '',
+                consent: false,
+            })
+            setTimeout(() => {
+                setShowConfirmation(false)
+            }, 3000)
         } else {
             setErrors(validationErrors);
+            // Clears errors after 3 seconds
+            setTimeout(() => {
+                setErrors({})
+            }, 3000)
         }
     };
 
-    const closeConfirmation = () => {
-        setShowConfirmation(false);
-    };
-
     return (
-        <div>
-            <form onSubmit={handleSubmit}>
-                <div>
-                    <label>First Name:</label>
-                    <input
-                        type="text"
-                        name="firstName"
-                        value={formData.firstName}
-                        onChange={handleChange}
-                    />
-                    {errors.firstName && <p style={{ color: 'red' }}>{errors.firstName}</p>}
-                </div>
-                <div>
-                    <label>Last Name:</label>
-                    <input
-                        type="text"
-                        name="lastName"
-                        value={formData.lastName}
-                        onChange={handleChange}
-                    />
-                    {errors.lastName && <p style={{ color: 'red' }}>{errors.lastName}</p>}
-                </div>
-                <div>
-                    <label>Email Address:</label>
-                    <input
-                        type="email"
-                        name="email"
-                        value={formData.email}
-                        onChange={handleChange}
-                    />
-                    {errors.email && <p style={{ color: 'red' }}>{errors.email}</p>}
-                </div>
-                <div>
-                    <label>Enquiry Type:</label>
-                    <div>
-                        <input
-                            type="radio"
-                            name="enquiryType"
-                            value="General Enquiry"
-                            onChange={handleChange}
-                            checked={formData.enquiryType === 'General Enquiry'}
-                        />
-                        General Enquiry
-                        <input
-                            type="radio"
-                            name="enquiryType"
-                            value="Support Request"
-                            onChange={handleChange}
-                            checked={formData.enquiryType === 'Support Request'}
-                        />
-                        Support Request
-                    </div>
-                    {errors.enquiryType && <p style={{ color: 'red' }}>{errors.enquiryType}</p>}
-                </div>
-                <div>
-                    <label>Message:</label>
-                    <textarea
-                        name="message"
-                        value={formData.message}
-                        onChange={handleChange}
-                    />
-                    {errors.message && <p style={{ color: 'red' }}>{errors.message}</p>}
-                </div>
-                <div>
-                    <input
-                        type="checkbox"
-                        name="consent"
-                        checked={formData.consent}
-                        onChange={handleChange}
-                    />
-                    <label>I consent to being contacted by the team *</label>
-                    {errors.consent && <p style={{ color: 'red' }}>{errors.consent}</p>}
-                </div>
-                <button type="submit">Submit</button>
-            </form>
-
+        <>
             {showConfirmation && (
-                <div>
-                    <p>Your submission was successful!</p>
-                    <button onClick={closeConfirmation}>Close</button>
+                <div className='success-alert'>
+                    <p><img src={checkmark_success}/><strong>Message Sent!</strong></p>
+                    <p>Thanks for completing the form. We'll be in touch soon!</p>
                 </div>
             )}
-        </div>
+        
+            <div className='formContainer'>
+                <h1>Contact Us</h1>
+                <form onSubmit={handleSubmit}>
+                    <div className={`form-input half ${errors.firstName ? 'input-error': ''}`}>
+                        <label>First Name <span>*</span></label>
+                        <input
+                            type="text"
+                            name="firstName"
+                            value={formData.firstName}
+                            onChange={handleChange}
+                        />
+                        {errors.firstName && <p className='error'>{errors.firstName}</p>}
+                    </div>
+                    <div className={`form-input half ${errors.lastName ? 'input-error': ''}`}>
+                        <label>Last Name <span>*</span></label>
+                        <input
+                            type="text"
+                            name="lastName"
+                            value={formData.lastName}
+                            onChange={handleChange}
+                        />
+                        {errors.lastName && <p className='error'>{errors.lastName}</p>}
+                    </div>
+                    <div className={`form-input full ${errors.email ? 'input-error': ''}`}>
+                        <label>Email Address <span>*</span></label>
+                        <input
+                            type="email"
+                            name="email"
+                            value={formData.email}
+                            onChange={handleChange}
+                        />
+                        {errors.email && <p className='error'>{errors.email}</p>}
+                    </div>
+                    <div className='form-input full queries-container'>
+                        <label>Query Type <span>*</span></label>
+                        <div className='queries'>
+                            <div className={`query ${formData.enquiryType === 'General Enquiry' ? 'selected' : ''}`}>
+                                <input
+                                    type="radio"
+                                    name="enquiryType"
+                                    value="General Enquiry"
+                                    onChange={handleChange}
+                                    checked={formData.enquiryType === 'General Enquiry'}
+                                />
+                                General Enquiry
+                            </div>
+                            <div className={`query ${formData.enquiryType === 'Support Request' ? 'selected' : ''}`}>
+                                <input
+                                    type="radio"
+                                    name="enquiryType"
+                                    value="Support Request"
+                                    onChange={handleChange}
+                                    checked={formData.enquiryType === 'Support Request'}
+                                />
+                                Support Request
+                            </div>
+                        </div>
+                        {errors.enquiryType && <p className='error'>{errors.enquiryType}</p>}
+                    </div>
+                    <div className={`form-input full ${errors.message ? 'input-error': ''}`}>
+                        <label>Message <span>*</span></label>
+                        <textarea
+                            name="message"
+                            value={formData.message}
+                            onChange={handleChange}
+                        />
+                        {errors.message && <p className='error'>{errors.message}</p>}
+                    </div>
+                    <div className='form-input full checkbox-container'>
+                        <input
+                            type="checkbox"
+                            name="consent"
+                            checked={formData.consent}
+                            onChange={handleChange}
+                            id="consent"
+                        />
+                        <label for="consent">I consent to being contacted by the team <span>*</span></label>
+                    </div>
+                    {errors.consent && <p className='error'>{errors.consent}</p>}
+                    <button type="submit">Submit</button>
+                </form>
+            </div>
+        </>
     );
 };
 
