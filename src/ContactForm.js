@@ -88,7 +88,7 @@ const ContactForm = () => {
                 <h1>Contact Us</h1>
                 <form onSubmit={handleSubmit}>
                     <div className={`form-input half ${errors.firstName ? 'input-error': ''}`}>
-                        <label>First Name <span>*</span></label>
+                        <label for="firstName">First Name <span>*</span></label>
                         <input
                             type="text"
                             name="firstName"
@@ -98,7 +98,7 @@ const ContactForm = () => {
                         {errors.firstName && <p className='error'>{errors.firstName}</p>}
                     </div>
                     <div className={`form-input half ${errors.lastName ? 'input-error': ''}`}>
-                        <label>Last Name <span>*</span></label>
+                        <label for="lastName">Last Name <span>*</span></label>
                         <input
                             type="text"
                             name="lastName"
@@ -108,7 +108,7 @@ const ContactForm = () => {
                         {errors.lastName && <p className='error'>{errors.lastName}</p>}
                     </div>
                     <div className={`form-input full ${errors.email ? 'input-error': ''}`}>
-                        <label>Email Address <span>*</span></label>
+                        <label for="email">Email Address <span>*</span></label>
                         <input
                             type="email"
                             name="email"
@@ -118,7 +118,7 @@ const ContactForm = () => {
                         {errors.email && <p className='error'>{errors.email}</p>}
                     </div>
                     <div className='form-input full queries-container'>
-                        <label>Query Type <span>*</span></label>
+                        <label for="enquiryType">Query Type <span>*</span></label>
                         <div className='queries'>
                             <div className={`query ${formData.enquiryType === 'General Enquiry' ? 'selected' : ''}`}>
                                 <input
@@ -144,7 +144,7 @@ const ContactForm = () => {
                         {errors.enquiryType && <p className='error'>{errors.enquiryType}</p>}
                     </div>
                     <div className={`form-input full ${errors.message ? 'input-error': ''}`}>
-                        <label>Message <span>*</span></label>
+                        <label for="message">Message <span>*</span></label>
                         <textarea
                             name="message"
                             value={formData.message}
