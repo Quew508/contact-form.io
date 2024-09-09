@@ -84,7 +84,7 @@ const ContactForm = () => {
                 </div>
             )}
         
-            <div className='formContainer'>
+            <div className='formContainer' role='form'>
                 <h1>Contact Us</h1>
                 <form onSubmit={handleSubmit}>
                     <div className={`form-input half ${errors.firstName ? 'input-error': ''}`}>
